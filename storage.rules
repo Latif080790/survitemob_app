@@ -1,0 +1,28 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper function to get user's role from Auth custom claims
+    function getUserRole() {
+      return request.auth.token.role;
+    }
+
+    // Match file uploads for task evidence
+    // Path: /tasks/{taskId}/{evidenceType}.jpg (e.g., /tasks/task_abc123/after.jpg)
+    match /tasks/{taskId}/{fileName} {
+
+      // Memerlukan otentikasi dan peran sebagai mandor
+      // Nama file harus 'before.jpg' atau 'after.jpg'
+      // Ukuran file harus di bawah 5MB
+      allow write: if request.auth != null 
+                    && getUserRole() == 'mandor'
+                    && (fileName == 'before.jpg' || fileName == 'after.jpg')
+                    && request.resource.size < 5 * 1024 * 1024; // Max 5 MB
+
+      // Siapapun anggota tim yang terotentikasi dapat membaca gambar bukti
+      allow read: if request.auth != null 
+                   && getUserRole() in ['mandor', 'qa_qc', 'pm', 'admin'];
+    }
+  }
+}

@@ -1,0 +1,79 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to get user's role from Auth custom claims
+    function getUserRole() {
+      return request.auth.token.role;
+    }
+
+    // Helper function to check if a user is an admin or PM
+    function isProjectManager() {
+      return getUserRole() == 'pm' || getUserRole() == 'admin';
+    }
+
+    // Helper function to check if a user is part of the construction team
+    function isTeamMember() {
+      return getUserRole() in ['mandor', 'qa_qc', 'pm', 'admin'];
+    }
+
+    //----------------------------------------------------------------
+    // TASKS COLLECTION
+    //----------------------------------------------------------------
+    match /tasks/{taskId} {
+      // Semua anggota tim terotentikasi dapat membaca data tugas
+      allow read: if request.auth != null && isTeamMember();
+
+      // Logika penulisan (create, update) yang lebih kompleks
+      allow write: if request.auth != null && (
+        createTask() || updateTaskStatus()
+      );
+
+      // Hanya PM atau Mandor yang bisa membuat tugas baru
+      function createTask() {
+        return (getUserRole() == 'pm' || getUserRole() == 'mandor') && resource.data.status == 'To Do';
+      }
+
+      // Aturan untuk memperbarui status tugas sesuai alur kerja
+      function updateTaskStatus() {
+        let previousStatus = existingData().status;
+        let nextStatus = resource.data.status;
+        let userRole = getUserRole();
+
+        return (
+          // Mandor: In Progress -> Pending QA Approval
+          (userRole == 'mandor' && previousStatus == 'In Progress' && nextStatus == 'Pending QA Approval') ||
+          // Mandor: Rework -> Pending QA Approval
+          (userRole == 'mandor' && previousStatus == 'Rework / Defect' && nextStatus == 'Pending QA Approval') ||
+          // QA/QC: Pending QA -> Pending PM Review OR Rework
+          (userRole == 'qa_qc' && previousStatus == 'Pending QA Approval' && (nextStatus == 'Pending PM Review' || nextStatus == 'Rework / Defect')) ||
+          // PM: Pending PM -> Completed OR Rework
+          (userRole == 'pm' && previousStatus == 'Pending PM Review' && (nextStatus == 'Completed' || nextStatus == 'Rework / Defect'))
+        );
+      }
+    }
+
+    //----------------------------------------------------------------
+    // TASK APPROVAL LOGS COLLECTION
+    //----------------------------------------------------------------
+    match /task_approval_logs/{logId} {
+      // Semua anggota tim bisa membaca log riwayat
+      allow read: if request.auth != null && isTeamMember();
+      
+      // Siapapun anggota tim bisa membuat log baru (saat mereka melakukan aksi),
+      // tapi tidak ada yang boleh mengedit atau menghapusnya (immutable).
+      allow create: if request.auth != null && isTeamMember();
+      allow update, delete: if false;
+    }
+
+    //----------------------------------------------------------------
+    // USERS COLLECTION (to store role information)
+    //----------------------------------------------------------------
+    match /users/{userId} {
+        allow read: if request.auth != null;
+        // Hanya admin/PM yang dapat mengubah role, atau pengguna bisa edit profilnya sendiri
+        allow write: if isProjectManager() || request.auth.uid == userId;
+    }
+  }
+}
