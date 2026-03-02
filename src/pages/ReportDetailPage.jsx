@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { useAuth } from '../../context/AuthContext';
-import StatusBadge from '../../components/StatusBadge';
-import './ReportDetailPage.css'; // Kita akan buat file CSS ini
+import { db } from '../firebase'; // Path diperbaiki
+import { useAuth } from '../context/AuthContext'; // Path diperbaiki
+import StatusBadge from '../components/StatusBadge'; // Path diperbaiki
+import './ReportDetailPage.css';
 
 const ReportDetailPage = () => {
   const { reportId } = useParams();

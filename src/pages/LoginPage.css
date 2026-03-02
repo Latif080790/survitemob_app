@@ -1,169 +1,179 @@
-/* LoginPage.css */
+/* LoginPage.css - Redesain Total */
 
-.login-page {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  background-color: #f0f4f8; /* Light blue-gray background */
-  overflow: hidden;
-  position: relative;
+:root {
+  --primary-color: #ffc107; /* Kuning Konstruksi */
+  --secondary-color: #424242; /* Abu-abu Gelap */
+  --background-color: #5c6bc0; /* Biru dari Scene */
+  --text-color: #212121;
+  --text-light: #f5f5f5;
+  --card-background: rgba(255, 255, 255, 0.1);
 }
 
-.animation-container {
+.login-page-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Mencegah scroll yang tidak diinginkan dari scene 3D */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color); /* Fallback jika scene gagal loading */
+}
+
+/* Untuk fallback loading suspense */
+.loading-backdrop {
   position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
-}
-
-.tower-crane {
-  position: absolute;
-  bottom: 0;
-  left: 30%;
-  width: 10px;
-  height: 80%; 
-}
-
-.crane-base {
-  width: 50px;
-  height: 10px;
-  background: #333;
-  position: absolute;
-  bottom: 0;
-  left: -20px;
-}
-
-.crane-mast {
-  width: 10px;
-  height: 100%;
-  background: repeating-linear-gradient(
-    #f39c12, /* Crane yellow */
-    #f39c12 20px,
-    #333 20px,
-    #333 40px
-  );
-}
-
-.crane-jib {
-  width: 250%; /* Jib length */
-  height: 8px;
-  background: #f39c12;
-  position: absolute;
-  top: 0;
-  left: -20%;
-  transform-origin: 20% 100%;
-  animation: rotateJib 25s linear infinite;
-}
-
-.crane-hook-line {
-  width: 2px;
-  height: 20%; /* Initial height */
-  background: #333;
-  position: absolute;
-  top: 8px; /* Below the jib */
-  left: 120%; /* Initial horizontal position on the jib */
-  animation: moveHook 25s ease-in-out infinite;
-}
-
-.crane-load {
-  width: 50px;
-  height: 50px;
-  background: #964B00; /* Brown for material */
-  color: white;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 10px;
-  font-weight: bold;
-  position: absolute;
-  bottom: -50px; /* Attached to the hook line */
-  left: -24px;
-  animation: liftLoad 25s ease-in-out infinite;
-}
-
-/* Animations */
-@keyframes rotateJib {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(45deg); }
-}
-
-@keyframes moveHook {
-  0%, 100% { left: 120%; }
-  40% { left: 40%; } 
-  60% { left: 40%; } 
-}
-
-@keyframes liftLoad {
-  0%, 10% { transform: translateY(0); }
-  40% { transform: translateY(-300px); } /* Lift up */
-  60% { transform: translateY(-300px); } /* Hold */
-  90%, 100% { transform: translateY(0); } /* Lower down */
-}
-
-
-/* Login Form Styling */
-.login-container {
-  flex: 1;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+  z-index: 10;
+  font-size: 1.5rem;
+}
+
+.login-form-card {
+  position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(2px);
-}
-
-.login-box {
-  background: white;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
+  padding: 2.5rem 3rem;
+  background: var(--card-background);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-light);
   text-align: center;
 }
 
-h2 {
-  margin-bottom: 10px;
-  color: #333;
+.app-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 0;
+  letter-spacing: -2px;
+}
+
+.app-subtitle {
+  font-size: 1rem;
+  margin-top: -5px;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .input-group {
-  margin-bottom: 20px;
   text-align: left;
+  margin-bottom: 1.5rem;
 }
 
-label {
+.input-group label {
   display: block;
-  margin-bottom: 5px;
-  color: #555;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-input {
+.input-group input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-light);
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.3);
 }
 
 .login-button {
   width: 100%;
-  padding: 12px;
-  background-color: #f39c12;
-  color: white;
+  padding: 0.9rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.1s;
+  margin-top: 1rem;
 }
 
-.login-button:hover {
-  background-color: #e67e22;
+.login-button:hover:not(:disabled) {
+  background-color: #ffca28; /* Warna kuning lebih terang */
+}
+
+.login-button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.login-button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
 }
 
 .error-message {
-  color: #c0392b;
-  margin-bottom: 15px;
+  color: #ff8a80; /* Merah muda untuk error */
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: 0.7rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-footer {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Animasi */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Media Query untuk Mobile */
+@media (max-width: 480px) {
+  .login-form-card {
+    padding: 2rem 1.5rem;
+    margin: 0 1rem; /* Beri sedikit jarak dari tepi layar */
+    border: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .app-title {
+      font-size: 2.8rem;
+  }
 }
