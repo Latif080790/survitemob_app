@@ -1,0 +1,35 @@
+[debug] [2026-03-02T15:12:19.271Z] ----------------------------------------------------------------------
+[debug] [2026-03-02T15:12:19.274Z] Command:       /nix/store/ws50yvm6vzlzf7jzz6n7xh4szddrack1-nodejs-20.19.1/bin/node /nix/store/gm9mcvzb17vv8cla08khrg29vxn3sq4r-firebase-tools-15.1.0/lib/node_modules/firebase-tools/lib/bin/firebase.js deploy --only hosting --project survite-81297391-fc
+[debug] [2026-03-02T15:12:19.274Z] CLI Version:   15.1.0
+[debug] [2026-03-02T15:12:19.274Z] Platform:      linux
+[debug] [2026-03-02T15:12:19.274Z] Node Version:  v20.19.1
+[debug] [2026-03-02T15:12:19.275Z] Time:          Mon Mar 02 2026 15:12:19 GMT+0000 (Coordinated Universal Time)
+[debug] [2026-03-02T15:12:19.275Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-02T15:12:19.277Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-03-02T15:12:20.747Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/userinfo.email"]
+[debug] [2026-03-02T15:12:21.144Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-03-02T15:12:21.145Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-03-02T15:12:26.427Z] Running auto auth
+[debug] [2026-03-02T15:12:26.459Z] [iam] checking project survite-81297391-fc for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-03-02T15:12:26.463Z] No OAuth tokens found
+[debug] [2026-03-02T15:12:26.463Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/survite-81297391-fc:testIamPermissions [none]
+[debug] [2026-03-02T15:12:26.463Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/survite-81297391-fc:testIamPermissions x-goog-quota-user=projects/survite-81297391-fc
+[debug] [2026-03-02T15:12:26.464Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/survite-81297391-fc:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-02T15:12:27.384Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/survite-81297391-fc:testIamPermissions 200
+[debug] [2026-03-02T15:12:27.386Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/survite-81297391-fc:testIamPermissions {}
+[debug] [2026-03-02T15:12:27.387Z] [iam] error while checking permissions, command may fail: Authorization failed. This account is missing the following required permissions on project survite-81297391-fc:
+
+  firebase.projects.get
+  firebasehosting.sites.update
+[debug] [2026-03-02T15:12:27.392Z] No OAuth tokens found
+[debug] [2026-03-02T15:12:27.393Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/survite-81297391-fc [none]
+[debug] [2026-03-02T15:12:28.005Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/survite-81297391-fc 403
+[debug] [2026-03-02T15:12:28.005Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/survite-81297391-fc {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-03-02T15:12:28.006Z] Request to https://firebase.googleapis.com/v1beta1/projects/survite-81297391-fc had HTTP Error: 403, The caller does not have permission
+[debug] [2026-03-02T15:12:28.007Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/survite-81297391-fc had HTTP Error: 403, The caller does not have permission
+    at responseToError (/nix/store/gm9mcvzb17vv8cla08khrg29vxn3sq4r-firebase-tools-15.1.0/lib/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/nix/store/gm9mcvzb17vv8cla08khrg29vxn3sq4r-firebase-tools-15.1.0/lib/node_modules/firebase-tools/lib/apiv2.js:322:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: Failed to get Firebase project survite-81297391-fc. Please make sure the project exists and your account has permission to access it.
