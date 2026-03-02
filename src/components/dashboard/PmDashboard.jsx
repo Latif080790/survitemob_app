@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
+import AllReportsList from './AllReportsList'; // Impor komponen baru
 
 const PmDashboard = () => {
   const [summary, setSummary] = useState({
@@ -86,6 +87,11 @@ const PmDashboard = () => {
           </div>
         </>
       )}
+
+      {/* Tambahkan daftar semua laporan di sini */}
+      <div className="mt-4">
+        <AllReportsList />
+      </div>
     </div>
   );
 };

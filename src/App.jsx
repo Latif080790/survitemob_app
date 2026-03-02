@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage'; // Kita akan buat file ini
+import DashboardPage from './pages/DashboardPage';
+import ReportDetailPage from './pages/ReportDetailPage'; // Impor komponen baru
 
 function App() {
   const { currentUser } = useAuth();
@@ -24,6 +25,15 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Rute dinamis untuk detail laporan */}
+        <Route 
+          path="/report/:reportId" 
+          element={
+            <ProtectedRoute>
+              <ReportDetailPage />
             </ProtectedRoute>
           }
         />
